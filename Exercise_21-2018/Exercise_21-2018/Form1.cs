@@ -24,7 +24,13 @@ namespace Exercise_21_2018
             SqlConnection sqlConnection = new SqlConnection();
             sqlConnection.ConnectionString = connectionString;
 
+            List<ExerciseResult> students = new List<ExerciseResult>();
+
             sqlConnection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand();
+            sqlCommand.Connection = sqlConnection;
+            sqlCommand.CommandText = "SELECT * FROM ExerciseResults";
 
             sqlConnection.Close();
         }
