@@ -21,35 +21,38 @@ namespace Exercise_21_2018
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            SqlConnection sqlConnection = new SqlConnection();
-            sqlConnection.ConnectionString = connectionString;
-
-            List<ExerciseResult> students = new List<ExerciseResult>();
-
-            sqlConnection.Open();
-
-            SqlCommand sqlCommand = new SqlCommand();
-            sqlCommand.Connection = sqlConnection;
-            sqlCommand.CommandText = "SELECT * FROM ExerciseResults";
-
-            SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
-
-            while (sqlDataReader.Read())
+            using (SqlConnection sqlConnection = new SqlConnection())
             {
-                ExerciseResult student = new ExerciseResult();
-                student.Id = sqlDataReader.GetInt32(0);
-                student.StudentName = sqlDataReader.GetString(1);
-                student.StudentIndex = sqlDataReader.GetString(2);
-                student.Points = sqlDataReader.GetInt32(3);
-                students.Add(student);
-            }
 
-            foreach(ExerciseResult s in students)
-            {
-                listBoxExerciseResults.Items.Add(s.Id + ". " + s.StudentName + " " + s.StudentIndex + "  = " + s.Points);
-            }
+                sqlConnection.ConnectionString = connectionString;
 
-            sqlConnection.Close();
+                List<ExerciseResult> students = new List<ExerciseResult>();
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand();
+                sqlCommand.Connection = sqlConnection;
+                sqlCommand.CommandText = "SELECT * FROM ExerciseResults";
+
+                SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+
+                while (sqlDataReader.Read())
+                {
+                    ExerciseResult student = new ExerciseResult();
+                    student.Id = sqlDataReader.GetInt32(0);
+                    student.StudentName = sqlDataReader.GetString(1);
+                    student.StudentIndex = sqlDataReader.GetString(2);
+                    student.Points = sqlDataReader.GetInt32(3);
+                    students.Add(student);
+                }
+
+                foreach(ExerciseResult s in students)
+                {
+                    listBoxExerciseResults.Items.Add(s.Id + ". " + s.StudentName + " " + s.StudentIndex + "  = " + s.Points);
+                }
+
+            }
+            
         }
     }
 }
